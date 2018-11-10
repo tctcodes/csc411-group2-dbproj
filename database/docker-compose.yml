@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+  db:
+    image: mysql
+    environment:
+      - MYSQL_DATABASE=abandonbase
+      - MYSQL_USER=architect
+      - MYSQL_PASSWORD=knockknock
+      - MYSQL_ROOT_PASSWORD=letmein
+    volumes:
+      - ./db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_ARBITRARY: 1
+      MYSQL_USER: architect
+      MYSQL_PASSWORD: knockknock
+      MYSQL_ROOT_PASSWORD: letmein
+    ports:
+      - "80:80"
+    links:
+      - "db:db"
+
+volumes:
+  db:
+    driver: "local"
