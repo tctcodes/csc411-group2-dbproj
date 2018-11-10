@@ -7,7 +7,7 @@ cd database
 docker-compose up -d
 
 #### To Stop 
-docker-compose down
+docker-compose stop
 
 ### Step 2. Start API
 
