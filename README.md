@@ -6,6 +6,8 @@ cd database
 #### To Start
 docker-compose up -d
 
+phpmyadmin will be broadcasting on localhost:80
+
 #### To Stop 
 docker-compose stop
 
@@ -13,3 +15,9 @@ docker-compose stop
 
 
 ### Step 3.  Start Web App
+
+### To Start
+cd app
+npm run serve
+
+vue will be broadcasting on localhost:8080
