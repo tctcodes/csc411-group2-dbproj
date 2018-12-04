@@ -1,12 +1,28 @@
 <template>
-  <v-layout>
+  <v-layout justify-start align-center column>
+    <v-toolbar color="#01C5B9">
+      <v-toolbar-title>Abandoned Games Database</v-toolbar-title>
+      <v-autocomplete
+        :loading="loading"
+        :items="items"
+        :search-input.sync="search"
+        v-model="select"
+        cache-items
+        class="mx-3"
+        flat
+        hide-no-data
+        hide-details
+        label="What old game are you looking for?"
+        solo-inverted
+      ></v-autocomplete>
+    </v-toolbar>
     <v-data-table
       :headers="headers"
       :items="abandonWare"
-      class="elevation-1"
+      dark
+      class="elevation-1 mt-5"
     >
       <template slot="items" slot-scope="props">
-        <!-- <td>{{ props.item.name }}</td> -->
         <td class="text-xs-right">{{ props.item.title }}</td>
         <td class="text-xs-right">{{ props.item.releaseDate }}</td>
         <td class="text-xs-right">{{ props.item.license }}</td>
