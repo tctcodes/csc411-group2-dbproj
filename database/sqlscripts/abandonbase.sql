@@ -9,7 +9,7 @@ create table game
 create table publisher
     (publisherName varchar(250),
      contact varchar(250),
-     active bit,
+     active boolean,
      primary key (publisherName)
     );
 
@@ -17,7 +17,6 @@ create table platform
     (platformName varchar(250),
      title varchar(250),
      releaseDate varchar(250),
-     primary key (platformName),
      foreign key (title) references game (title)
         on delete set null
     );
