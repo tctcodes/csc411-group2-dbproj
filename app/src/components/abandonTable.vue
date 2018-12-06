@@ -27,14 +27,14 @@
         class="elevation-1 mt-5"
       >
         <template slot="items" slot-scope="props">
-          <td class="text-xs-right">{{ props.item.title }}</td>
-          <td class="text-xs-right">{{ props.item.releaseDate }}</td>
-          <td class="text-xs-right">{{ props.item.license }}</td>
-          <td class="text-xs-right">{{ props.item.openSource }}</td>
-          <td class="text-xs-right">{{ props.item.publisher }}</td>
-          <td class="text-xs-right">{{ props.item.contact }}</td>
-          <td class="text-xs-right">{{ props.item.active }}</td>
-          <td class="text-xs-right">{{ props.item.genre }}</td>
+          <td class="text-xs-left">{{ props.item.title }}</td>
+          <td class="text-xs-left">{{ props.item.releaseDate }}</td>
+          <td class="text-xs-left">{{ props.item.license }}</td>
+          <td class="text-xs-left">{{ props.item.openSource.data[0] ? 'Y' : 'N' }}</td>
+          <td class="text-xs-left">{{ props.item.publisherName }}</td>
+          <td class="text-xs-left">{{ props.item.contact }}</td>
+          <td class="text-xs-left">{{ props.item.active.data[0] ? 'Y' : 'N' }}</td>
+          <td class="text-xs-left">{{ props.item.genreName }}</td>
           <v-btn
             justify-center
             align-center
@@ -52,14 +52,14 @@
         class="elevation-1 mt-5"
       >
         <template slot="items" slot-scope="props">
-          <td class="text-xs-right">{{ props.item.title }}</td>
-          <td class="text-xs-right">{{ props.item.releaseDate }}</td>
-          <td class="text-xs-right">{{ props.item.license }}</td>
-          <td class="text-xs-right">{{ props.item.openSource }}</td>
-          <td class="text-xs-right">{{ props.item.publisher }}</td>
-          <td class="text-xs-right">{{ props.item.contact }}</td>
-          <td class="text-xs-right">{{ props.item.active }}</td>
-          <td class="text-xs-right">{{ props.item.genre }}</td>
+          <td class="text-xs-left">{{ props.item.title }}</td>
+          <td class="text-xs-left">{{ props.item.releaseDate }}</td>
+          <td class="text-xs-left">{{ props.item.license }}</td>
+          <td class="text-xs-left">{{ props.item.openSource }}</td>
+          <td class="text-xs-left">{{ props.item.publisherName }}</td>
+          <td class="text-xs-left">{{ props.item.contact }}</td>
+          <td class="text-xs-left">{{ props.item.active }}</td>
+          <td class="text-xs-left">{{ props.item.genreName }}</td>
           <v-btn
             justify-center
             align-center
