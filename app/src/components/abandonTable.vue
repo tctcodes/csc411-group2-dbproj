@@ -35,6 +35,12 @@
           <td class="text-xs-right">{{ props.item.contact }}</td>
           <td class="text-xs-right">{{ props.item.active }}</td>
           <td class="text-xs-right">{{ props.item.genre }}</td>
+          <v-btn
+            justify-center
+            align-center
+            color = red
+            @click="() => deleteThis(props.item.title)"
+          >DELETE</v-btn>
         </template>
       </v-data-table>
     </div>
@@ -54,6 +60,12 @@
           <td class="text-xs-right">{{ props.item.contact }}</td>
           <td class="text-xs-right">{{ props.item.active }}</td>
           <td class="text-xs-right">{{ props.item.genre }}</td>
+          <v-btn
+            justify-center
+            align-center
+            color = red
+            @click="() => deleteThis(props.item.title)"
+          >DELETE</v-btn>
         </template>
       </v-data-table>
     </div>
@@ -77,64 +89,12 @@ export default {
         { text: 'Release Date', value: 'releaseDate' },
         { text: 'License', value: 'license' },
         { text: 'Open Source', value: 'openSource' },
-        { text: 'Publisher', value: 'publisher' },
+        { text: 'Publisher', value: 'publisherName' },
         { text: 'Contact', value: 'contact' },
         { text: 'Active', value: 'active' },
-        { text: 'Genre', value: 'genre' },
+        { text: 'Genre', value: 'genreName' },
       ],
-      filteredItems: [],
-      abandonWare: [
-        {
-          title: 'Kings Quest I',
-          releaseDate: 'July 1983',
-          license: 'Proprietary',
-          openSource: 'False',
-          publisher: 'Sierra',
-          contact: 'Unknown',
-          active: 'False',
-          genre: 'Adventure',
-        },
-        {
-          title: 'Kings Quest II',
-          releaseDate: 'July 1983',
-          license: 'Proprietary',
-          openSource: 'False',
-          publisher: 'Sierra',
-          contact: 'Unknown',
-          active: 'False',
-          genre: 'Adventure',
-        },
-        {
-          title: 'Kings Quest III',
-          releaseDate: 'July 1983',
-          license: 'Proprietary',
-          openSource: 'False',
-          publisher: 'Sierra',
-          contact: 'Unknown',
-          active: 'False',
-          genre: 'Adventure',
-        },
-        {
-          title: 'Kings Quest IV',
-          releaseDate: 'July 1983',
-          license: 'Proprietary',
-          openSource: 'False',
-          publisher: 'Sierra',
-          contact: 'Unknown',
-          active: 'False',
-          genre: 'Adventure',
-        },
-        {
-          title: 'Star Trek',
-          releaseDate: 'July 1983',
-          license: 'Proprietary',
-          openSource: 'False',
-          publisher: 'Sierra',
-          contact: 'Unknown',
-          active: 'False',
-          genre: 'Adventure',
-        },
-      ],
+      abandonWare: [],
     };
   },
   methods: {
@@ -149,8 +109,25 @@ export default {
     },
     resetOnClick() {
       this.reset = true;
-    }
-  }
+    },
+    fetchDatabase() {
+      fetch('http://localhost:4000/showgames', { method: 'GET', mode: 'cors', headers: { 'Access-Control-Allow-Origin': '*' } })
+        .then(res => res.json())
+        // .then(data => console.log(data));
+        .then(data => this.abandonWare = [ ...data ]);
+    },
+    deleteThis(title){
+      console.log(`Deleting: ${title}`);
+      fetch(`http://localhost:4000/deletegame/?${title}`, { method: 'Delete', mode: 'cors', headers: { 'Access-Control-Allow-Origin': '*' } })
+        .then(res => res.json())
+        .then(data => console.log(data));
+
+      this.fetchDatabase();
+    },
+  },
+  created() {
+    this.fetchDatabase();
+  },
 };
 </script>
 
