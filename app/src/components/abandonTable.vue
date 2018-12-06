@@ -2,44 +2,71 @@
   <v-layout justify-start align-center column>
     <v-toolbar color="#01C5B9">
       <v-toolbar-title>Abandoned Games Database</v-toolbar-title>
-      <v-autocomplete
-        :loading="loading"
-        :items="items"
-        :search-input.sync="search"
-        v-model="select"
-        cache-items
-        class="mx-3"
-        flat
-        hide-no-data
-        hide-details
-        label="What old game are you looking for?"
-        solo-inverted
-      ></v-autocomplete>
+      <v-text-field
+        label="What game are you looking for?"
+        v-model="searchQuery"
+        clearable
+        solo
+        dark
+        class="ma-2 pt-2"
+      ></v-text-field>
+      <v-btn
+        color="#01A59B"
+        @click="filterOnClick"
+      >Search</v-btn>
+      <v-btn
+        color="#01A59B"
+        @click="resetOnClick"
+      >Reset</v-btn>
     </v-toolbar>
-    <v-data-table
-      :headers="headers"
-      :items="abandonWare"
-      dark
-      class="elevation-1 mt-5"
-    >
-      <template slot="items" slot-scope="props">
-        <td class="text-xs-right">{{ props.item.title }}</td>
-        <td class="text-xs-right">{{ props.item.releaseDate }}</td>
-        <td class="text-xs-right">{{ props.item.license }}</td>
-        <td class="text-xs-right">{{ props.item.openSource }}</td>
-        <td class="text-xs-right">{{ props.item.publisher }}</td>
-        <td class="text-xs-right">{{ props.item.contact }}</td>
-        <td class="text-xs-right">{{ props.item.active }}</td>
-        <td class="text-xs-right">{{ props.item.genre }}</td>
-      </template>
-    </v-data-table>
+    <div v-if="reset">
+      <v-data-table
+        :headers="headers"
+        :items="abandonWare"
+        dark
+        class="elevation-1 mt-5"
+      >
+        <template slot="items" slot-scope="props">
+          <td class="text-xs-right">{{ props.item.title }}</td>
+          <td class="text-xs-right">{{ props.item.releaseDate }}</td>
+          <td class="text-xs-right">{{ props.item.license }}</td>
+          <td class="text-xs-right">{{ props.item.openSource }}</td>
+          <td class="text-xs-right">{{ props.item.publisher }}</td>
+          <td class="text-xs-right">{{ props.item.contact }}</td>
+          <td class="text-xs-right">{{ props.item.active }}</td>
+          <td class="text-xs-right">{{ props.item.genre }}</td>
+        </template>
+      </v-data-table>
+    </div>
+    <div v-else>
+      <v-data-table
+        :headers="headers"
+        :items="filteredItems"
+        dark
+        class="elevation-1 mt-5"
+      >
+        <template slot="items" slot-scope="props">
+          <td class="text-xs-right">{{ props.item.title }}</td>
+          <td class="text-xs-right">{{ props.item.releaseDate }}</td>
+          <td class="text-xs-right">{{ props.item.license }}</td>
+          <td class="text-xs-right">{{ props.item.openSource }}</td>
+          <td class="text-xs-right">{{ props.item.publisher }}</td>
+          <td class="text-xs-right">{{ props.item.contact }}</td>
+          <td class="text-xs-right">{{ props.item.active }}</td>
+          <td class="text-xs-right">{{ props.item.genre }}</td>
+        </template>
+      </v-data-table>
+    </div>
   </v-layout>
 </template>
 
 <script>
+/* eslint-disable */
 export default {
   data() {
     return {
+      searchQuery: null,
+      reset: true,
       headers: [
         {
           text: 'Title',
@@ -55,6 +82,7 @@ export default {
         { text: 'Active', value: 'active' },
         { text: 'Genre', value: 'genre' },
       ],
+      filteredItems: [],
       abandonWare: [
         {
           title: 'Kings Quest I',
@@ -97,17 +125,7 @@ export default {
           genre: 'Adventure',
         },
         {
-          title: 'Kings Quest V',
-          releaseDate: 'July 1983',
-          license: 'Proprietary',
-          openSource: 'False',
-          publisher: 'Sierra',
-          contact: 'Unknown',
-          active: 'False',
-          genre: 'Adventure',
-        },
-        {
-          title: 'Kings Quest VI',
+          title: 'Star Trek',
           releaseDate: 'July 1983',
           license: 'Proprietary',
           openSource: 'False',
@@ -119,6 +137,20 @@ export default {
       ],
     };
   },
+  methods: {
+    filterOnClick() {
+      this.abandonWare.filter((e) => {
+        if (e.title.toLowerCase().includes(this.searchQuery.toLowerCase())){
+          console.log(`${e.title} is a match!`);
+          this.filteredItems.push(e);
+        }
+      });
+      this.reset = false;
+    },
+    resetOnClick() {
+      this.reset = true;
+    }
+  }
 };
 </script>
 
