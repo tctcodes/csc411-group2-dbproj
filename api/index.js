@@ -20,11 +20,19 @@ app.get('/', (req,res) => {
 });
 
 app.get('/showgames', (req,res) => {
-    let sql = 'SELECT * FROM game';
+    let sql = 'SELECT * FROM game NATURAL JOIN genre NATURAL JOIN platform NATURAL JOIN publisher';
     db.query(sql, (err, result) =>{
         if(err) throw err;
         console.log(result);
         res.send(result);
+    });
+});
+
+app.get('/deletegame/:title', (req,res) => {
+	let sql = `DELETE FROM game where title='${req.params.title}'`;
+	db.query(sql, (err, result) =>{
+        if(err) throw err;
+        res.send(`Deleted ${title} from game table`);
     });
 });
 

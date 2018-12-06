@@ -23,14 +23,22 @@
       class="elevation-1 mt-5"
     >
       <template slot="items" slot-scope="props">
-        <td class="text-xs-right">{{ props.item.title }}</td>
-        <td class="text-xs-right">{{ props.item.releaseDate }}</td>
-        <td class="text-xs-right">{{ props.item.license }}</td>
-        <td class="text-xs-right">{{ props.item.openSource }}</td>
-        <td class="text-xs-right">{{ props.item.publisher }}</td>
-        <td class="text-xs-right">{{ props.item.contact }}</td>
-        <td class="text-xs-right">{{ props.item.active }}</td>
-        <td class="text-xs-right">{{ props.item.genre }}</td>
+        <td class="text-xs-left">{{ props.item.title }}</td>
+        <td class="text-xs-left">{{ props.item.releaseDate }}</td>
+        <td class="text-xs-left">{{ props.item.license }}</td>
+        <td class="text-xs-left">{{ props.item.openSource.data[0] ? 'Yes' : 'No' }}</td>
+        <td class="text-xs-left">{{ props.item.publisherName }}</td>
+        <td class="text-xs-left">{{ props.item.contact }}</td>
+        <td class="text-xs-left">{{ props.item.active.data[0] ? 'Yes' : 'No' }}</td>
+        <td class="text-xs-left">{{ props.item.genreName }}</td>
+        <v-btn
+          justify-center
+          align-center
+          color = red
+          @click="() => deleteThis(props.item.title)"
+        >
+          DELETE
+        </v-btn>
       </template>
     </v-data-table>
   </v-layout>
@@ -50,74 +58,32 @@ export default {
         { text: 'Release Date', value: 'releaseDate' },
         { text: 'License', value: 'license' },
         { text: 'Open Source', value: 'openSource' },
-        { text: 'Publisher', value: 'publisher' },
+        { text: 'Publisher', value: 'publisherName' },
         { text: 'Contact', value: 'contact' },
         { text: 'Active', value: 'active' },
-        { text: 'Genre', value: 'genre' },
+        { text: 'Genre', value: 'genreName' },
       ],
-      abandonWare: [
-        {
-          title: 'Kings Quest I',
-          releaseDate: 'July 1983',
-          license: 'Proprietary',
-          openSource: 'False',
-          publisher: 'Sierra',
-          contact: 'Unknown',
-          active: 'False',
-          genre: 'Adventure',
-        },
-        {
-          title: 'Kings Quest II',
-          releaseDate: 'July 1983',
-          license: 'Proprietary',
-          openSource: 'False',
-          publisher: 'Sierra',
-          contact: 'Unknown',
-          active: 'False',
-          genre: 'Adventure',
-        },
-        {
-          title: 'Kings Quest III',
-          releaseDate: 'July 1983',
-          license: 'Proprietary',
-          openSource: 'False',
-          publisher: 'Sierra',
-          contact: 'Unknown',
-          active: 'False',
-          genre: 'Adventure',
-        },
-        {
-          title: 'Kings Quest IV',
-          releaseDate: 'July 1983',
-          license: 'Proprietary',
-          openSource: 'False',
-          publisher: 'Sierra',
-          contact: 'Unknown',
-          active: 'False',
-          genre: 'Adventure',
-        },
-        {
-          title: 'Kings Quest V',
-          releaseDate: 'July 1983',
-          license: 'Proprietary',
-          openSource: 'False',
-          publisher: 'Sierra',
-          contact: 'Unknown',
-          active: 'False',
-          genre: 'Adventure',
-        },
-        {
-          title: 'Kings Quest VI',
-          releaseDate: 'July 1983',
-          license: 'Proprietary',
-          openSource: 'False',
-          publisher: 'Sierra',
-          contact: 'Unknown',
-          active: 'False',
-          genre: 'Adventure',
-        },
-      ],
+      abandonWare: [],
     };
+  },
+  methods: {
+    fetchDatabase() {
+      fetch('http://localhost:4000/showgames', { method: 'GET', mode: 'cors', headers: { 'Access-Control-Allow-Origin': '*' } })
+        .then(res => res.json())
+        // .then(data => console.log(data));
+        .then(data => this.abandonWare = [ ...data ]);
+    },
+    deleteThis(title){
+      console.log(`Deleting: ${title}`);
+      fetch(`http://localhost:4000/deletegame/?${title}`, { method: 'Delete', mode: 'cors', headers: { 'Access-Control-Allow-Origin': '*' } })
+        .then(res => res.json())
+        .then(data => console.log(data));
+
+      this.fetchDatabase();
+    },
+  },
+  created() {
+    this.fetchDatabase();
   },
 };
 </script>
