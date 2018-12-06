@@ -10,7 +10,8 @@ create table publisher
     (publisherName varchar(250),
      contact varchar(250),
      active boolean,
-     primary key (publisherName)
+     title varchar(250),
+     primary key (title, publisherName)
     );
 
 create table platform
